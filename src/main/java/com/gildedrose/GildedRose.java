@@ -10,6 +10,10 @@ class GildedRose {
     Predicate<Item> nonLegendaryItemMatch;
     Map<String, Consumer<Item>> qualityUpdateActions;
 
+    //TODO:
+    //1. Magic numbers "item names", 6, 3, 11, 2 ...
+    //2. Duplication in magic numbers, Sulfuras...
+    //3. Maybe pattern similar to qualityUpdateActions, for SellIn update
     public GildedRose(Item[] items) {
         this.items = items;
         this.nonLegendaryItemMatch = ((Predicate<Item>) (Item item) -> item.matchesName("Sulfuras, Hand of Ragnaros")).negate();

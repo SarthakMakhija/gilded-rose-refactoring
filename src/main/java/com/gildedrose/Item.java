@@ -20,6 +20,10 @@ public class Item {
         }
     }
 
+    void dropSellInByOne() {
+        this.sellIn = this.sellIn - 1;
+    }
+
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;

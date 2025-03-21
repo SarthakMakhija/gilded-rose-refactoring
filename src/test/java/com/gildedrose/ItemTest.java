@@ -29,4 +29,20 @@ public class ItemTest {
 
         assertEquals(0, item.quality);
     }
+
+    @Test
+    public void dropSellInByOne() {
+        Item item = new Item("Elixir of the Mongoose", 5, 7);
+        item.dropSellInByOne();
+
+        assertEquals(4, item.sellIn);
+    }
+
+    @Test
+    public void shouldDropSellInByOneMakingItNegative() {
+        Item item = new Item("Elixir of the Mongoose", 0, 0);
+        item.dropSellInByOne();
+
+        assertEquals(-1, item.sellIn);
+    }
 }

@@ -52,7 +52,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldDegradeQualityWithPassingTimeQuality() {
+    public void shouldOfDegradeQualityWithPassingTimeQuality() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Elixir of the Mongoose", 10, 40);
         actions.updateQualityFor(item);

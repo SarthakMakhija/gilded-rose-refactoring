@@ -49,17 +49,17 @@ class ItemUpdateActions {
         this.actions.put("Sulfuras, Hand of Ragnaros",
                 Action.nothing());
         this.actions.put("Aged Brie",
-                Action.improveQualityWithPassingTime());
+                Action.ofImproveQualityWithPassingTime());
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
                 new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne));
     }
 
     void updateQualityFor(Item item) {
-        this.actions.getOrDefault(item.name, Action.degradeQualityWithPassingTime()).qualityUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.ofDegradeQualityWithPassingTime()).qualityUpdateAction.accept(item);
     }
 
     void updateSellInFor(Item item) {
-        this.actions.getOrDefault(item.name, Action.degradeQualityWithPassingTime()).sellInUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.ofDegradeQualityWithPassingTime()).sellInUpdateAction.accept(item);
     }
 
     //TODO: misplaced behavior
@@ -86,11 +86,11 @@ class ItemUpdateActions {
             return new Action((Item item) -> {}, (Item item) -> {});
         }
 
-        static Action improveQualityWithPassingTime() {
+        static Action ofImproveQualityWithPassingTime() {
             return new Action(Item::improveQualityByOne, Item::reduceSellInByOne);
         }
 
-        static Action degradeQualityWithPassingTime() {
+        static Action ofDegradeQualityWithPassingTime() {
             return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne);
         }
     }

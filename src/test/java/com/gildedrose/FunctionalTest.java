@@ -1,11 +1,14 @@
 package com.gildedrose;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class FunctionalTest {
 
-    public static void main(String[] args) {
-        System.out.println("OMGHAI!");
-
-        Item[] items = new Item[] {
+    @Test
+    public void getAllItemState() {
+        Item[] items = new Item[]{
                 new Item("+5 Dexterity Vest", 10, 20), //
                 new Item("Aged Brie", 2, 0), //
                 new Item("Elixir of the Mongoose", 5, 7), //
@@ -15,7 +18,45 @@ public class FunctionalTest {
                 new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
                 // this conjured item does not work properly yet
-                new Item("Conjured Mana Cake", 3, 6) };
+                new Item("Conjured Mana Cake", 3, 6)};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        app.updateQuality();
+
+        Item[] expected = new Item[]{
+                new Item("+5 Dexterity Vest", 8, 18), //
+                new Item("Aged Brie", 0, 2), //
+                new Item("Elixir of the Mongoose", 3, 5), //
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80), //
+                new Item("Sulfuras, Hand of Ragnaros", -1, 80),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 13, 22),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 8, 50),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 3, 50),
+                // this conjured item does not work properly yet
+                new Item("Conjured Mana Cake", 1, 4)};
+
+        for (int index = 0; index < expected.length; index++) {
+            assertEquals(expected[index].name, app.items[index].name);
+            assertEquals(expected[index].sellIn, app.items[index].sellIn);
+            assertEquals(expected[index].quality, app.items[index].quality);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("OMGHAI!");
+
+        Item[] items = new Item[]{
+                new Item("+5 Dexterity Vest", 10, 20), //
+                new Item("Aged Brie", 2, 0), //
+                new Item("Elixir of the Mongoose", 5, 7), //
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80), //
+                new Item("Sulfuras, Hand of Ragnaros", -1, 80),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+                // this conjured item does not work properly yet
+                new Item("Conjured Mana Cake", 3, 6)};
 
         GildedRose app = new GildedRose(items);
 
@@ -33,6 +74,10 @@ public class FunctionalTest {
             System.out.println();
             app.updateQuality();
         }
-    }
 
+        System.out.println("-------- final state --------");
+        for (Item item : items) {
+            System.out.println(item);
+        }
+    }
 }

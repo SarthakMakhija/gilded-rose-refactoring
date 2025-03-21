@@ -7,25 +7,25 @@ import java.util.function.Predicate;
 
 class GildedRose {
     Item[] items;
-    Predicate<Item> nonLegendaryItemMatch;
-    QualityUpdateActions qualityUpdateActions;
+    private final Predicate<Item> nonLegendaryItemMatch;
+    private final QualityUpdateActions qualityUpdateActions;
+    private final SellInUpdateActions sellInUpdateActions;
 
     //TODO:
     //1. Magic numbers "item names", 6, 3, 11, 2 ...
     //2. Duplication in magic numbers, Sulfuras...
-    //3. Maybe pattern similar to qualityUpdateActions, for SellIn update
-    //4. Visibility specifiers for fields and methods
+    //3. Visibility specifiers for fields and methods
     public GildedRose(Item[] items) {
         this.items = items;
         this.nonLegendaryItemMatch = ((Predicate<Item>) (Item item) -> item.matchesName("Sulfuras, Hand of Ragnaros")).negate();
         this.qualityUpdateActions = new QualityUpdateActions();
+        this.sellInUpdateActions = new SellInUpdateActions();
     }
 
     public void updateQuality() {
         for (Item item : items) {
             this.qualityUpdateActions.updateQualityFor(item);
-
-            item.dropSellInByOneIf(this.nonLegendaryItemMatch);
+            this.sellInUpdateActions.updateSellInFor(item);
 
             if (item.sellIn < 0) {
                 if (!item.name.equals("Aged Brie")) {
@@ -63,5 +63,18 @@ class QualityUpdateActions {
 
     void updateQualityFor(Item item) {
         this.qualityUpdateActions.getOrDefault(item.name, Item::dropQualityByOne).accept(item);
+    }
+}
+
+class SellInUpdateActions {
+    private final Map<String, Consumer<Item>> sellInUpdateActions;
+
+    SellInUpdateActions() {
+        this.sellInUpdateActions = new HashMap<>();
+        this.sellInUpdateActions.put("Sulfuras, Hand of Ragnaros", (Item item) -> {});
+    }
+
+    void updateSellInFor(Item item) {
+        this.sellInUpdateActions.getOrDefault(item.name, Item::dropSellInByOne).accept(item);
     }
 }

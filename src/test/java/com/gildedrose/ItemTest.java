@@ -87,9 +87,25 @@ public class ItemTest {
     }
 
     @Test
-    public void shouldNotIncreaseQualityGivenItItAlreadyAtItsPeak() {
+    public void shouldNotIncreaseQualityGivenItIsAlreadyAtItsPeak() {
         Item item = new Item("Elixir of the Mongoose", 5, Item.PeakQuality);
         item.increaseQualityByOne();
+
+        assertEquals(50, item.quality);
+    }
+
+    @Test
+    public void increaseQualityByFive() {
+        Item item = new Item("Elixir of the Mongoose", 5, 6);
+        item.increaseQualityBy(5);
+
+        assertEquals(11, item.quality);
+    }
+
+    @Test
+    public void increaseQualityByFourOnlyGivenItReachesItsPeak() {
+        Item item = new Item("Elixir of the Mongoose", 5, 46);
+        item.increaseQualityBy(10);
 
         assertEquals(50, item.quality);
     }

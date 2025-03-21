@@ -30,6 +30,10 @@ public class Item {
         }
     }
 
+    void increaseQualityBy(int unit) {
+        for (int count = 1; count <= unit; count++) this.increaseQualityByOne();
+    }
+
     void increaseQualityByOne() {
         if (this.quality < PeakQuality) {
             this.quality = this.quality + 1;

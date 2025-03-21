@@ -62,6 +62,7 @@ class ItemUpdateActions {
         this.actions.getOrDefault(item.name, Action.degrade()).sellInUpdateAction.accept(item);
     }
 
+    //TODO: misplaced behavior
     private static void updateQualityBasedOnDaysLeftToSell(Item item) {
         if (item.daysLeftToSell() < 6)
             item.increaseQualityBy(3);
@@ -71,6 +72,7 @@ class ItemUpdateActions {
             item.increaseQualityByOne();
     }
 
+    //TODO: should Action contain both qualityUpdateAction and sellInUpdateAction, or should I have separate actions for each?
     static class Action {
         final Consumer<Item> qualityUpdateAction;
         final Consumer<Item> sellInUpdateAction;

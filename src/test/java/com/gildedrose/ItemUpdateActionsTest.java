@@ -70,6 +70,15 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
+    public void shouldUpdateSellInTakingTheItToNegative() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 0, 40);
+        actions.updateSellInFor(item);
+
+        assertEquals(-1, item.sellIn);
+    }
+
+    @Test
     public void shouldNotUpdateSellInForSulphur() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);

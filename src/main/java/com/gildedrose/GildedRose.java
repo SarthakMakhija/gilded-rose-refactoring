@@ -25,7 +25,7 @@ class GildedRose {
             this.itemUpdateActions.updateQualityFor(item);
             this.itemUpdateActions.updateSellInFor(item);
 
-            if (item.sellIn < 0) {
+            if (item.hasSellByPassed()) {
                 if (!item.name.equals("Aged Brie")) {
                     if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         item.dropQualityByOneIf(this.nonLegendaryItemMatch);
@@ -49,9 +49,9 @@ class ItemUpdateActions {
         this.actions.put("Sulfuras, Hand of Ragnaros", Action.empty());
         this.actions.put("Aged Brie", new Action(Item::increaseQualityByOne, Item::dropSellInByOne));
         this.actions.put("Backstage passes to a TAFKAL80ETC concert", new Action((Item item) -> {
-            if (item.sellIn < 6)
+            if (item.daysLeftToSell() < 6)
                 item.increaseQualityBy(3);
-            else if (item.sellIn < 11)
+            else if (item.daysLeftToSell() < 11)
                 item.increaseQualityBy(2);
             else
                 item.increaseQualityByOne();

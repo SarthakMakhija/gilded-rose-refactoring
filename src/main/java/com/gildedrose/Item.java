@@ -48,6 +48,14 @@ public class Item {
         return this.name.equals(name);
     }
 
+    boolean hasSellByPassed() {
+        return this.sellIn < 0;
+    }
+
+    int daysLeftToSell() {
+        return this.sellIn;
+    }
+
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;

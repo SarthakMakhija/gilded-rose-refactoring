@@ -101,4 +101,22 @@ public class ItemTest {
 
         assertEquals(50, item.quality);
     }
+
+    @Test
+    public void sellByHasPassed() {
+        Item item = new Item("Elixir of the Mongoose", -1, 46);
+        assertTrue(item.hasSellByPassed());
+    }
+
+    @Test
+    public void sellByHasNotPassedGivenSellInZero() {
+        Item item = new Item("Elixir of the Mongoose", 0, 46);
+        assertFalse(item.hasSellByPassed());
+    }
+
+    @Test
+    public void sellByHasNotPassedGivenNonZeroSellIn() {
+        Item item = new Item("Elixir of the Mongoose", 1, 46);
+        assertFalse(item.hasSellByPassed());
+    }
 }

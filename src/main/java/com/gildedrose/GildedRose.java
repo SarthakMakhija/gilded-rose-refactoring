@@ -46,9 +46,7 @@ class ItemUpdateActions {
 
     ItemUpdateActions() {
         this.actions = new HashMap<>();
-        this.actions.put("Sulfuras, Hand of Ragnaros", new Action(
-                (Item item) -> {}, (Item item) -> {}
-        ));
+        this.actions.put("Sulfuras, Hand of Ragnaros", Action.empty());
         this.actions.put("Aged Brie", new Action(Item::increaseQualityByOne, Item::dropSellInByOne));
         this.actions.put("Backstage passes to a TAFKAL80ETC concert", new Action((Item item) -> {
             if (item.sellIn < 6)
@@ -61,11 +59,11 @@ class ItemUpdateActions {
     }
 
     void updateQualityFor(Item item) {
-        this.actions.getOrDefault(item.name, new Action(Item::dropQualityByOne, Item::dropSellInByOne)).qualityUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.degrade()).qualityUpdateAction.accept(item);
     }
 
     void updateSellInFor(Item item) {
-        this.actions.getOrDefault(item.name, new Action(Item::dropQualityByOne, Item::dropSellInByOne)).sellInUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.degrade()).sellInUpdateAction.accept(item);
     }
 
     static class Action {
@@ -75,6 +73,14 @@ class ItemUpdateActions {
         Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction) {
             this.qualityUpdateAction = qualityUpdateAction;
             this.sellInUpdateAction = sellInUpdateAction;
+        }
+
+        static Action empty() {
+            return new Action((Item item) -> {}, (Item item) -> {});
+        }
+
+        static Action degrade() {
+            return new Action(Item::dropQualityByOne, Item::dropSellInByOne);
         }
     }
 }

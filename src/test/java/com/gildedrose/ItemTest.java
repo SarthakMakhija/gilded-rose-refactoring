@@ -45,4 +45,20 @@ public class ItemTest {
 
         assertEquals(-1, item.sellIn);
     }
+
+    @Test
+    public void increaseQualityByOne() {
+        Item item = new Item("Elixir of the Mongoose", 5, 7);
+        item.increaseQualityByOne();
+
+        assertEquals(8, item.quality);
+    }
+
+    @Test
+    public void shouldNotIncreaseQualityGivenItItAlreadyAtItsPeak() {
+        Item item = new Item("Elixir of the Mongoose", 5, 50);
+        item.increaseQualityByOne();
+
+        assertEquals(50, item.quality);
+    }
 }

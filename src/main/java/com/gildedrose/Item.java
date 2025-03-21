@@ -8,6 +8,8 @@ public class Item {
 
     public int quality;
 
+    public static final int PeakQuality = 50;
+
     public Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
@@ -21,7 +23,7 @@ public class Item {
     }
 
     void increaseQualityByOne() {
-        if (this.quality < 50) {
+        if (this.quality < PeakQuality) {
             this.quality = this.quality + 1;
         }
     }

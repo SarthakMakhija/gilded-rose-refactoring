@@ -56,7 +56,7 @@ public class ItemTest {
 
     @Test
     public void shouldNotIncreaseQualityGivenItItAlreadyAtItsPeak() {
-        Item item = new Item("Elixir of the Mongoose", 5, 50);
+        Item item = new Item("Elixir of the Mongoose", 5, Item.PeakQuality);
         item.increaseQualityByOne();
 
         assertEquals(50, item.quality);

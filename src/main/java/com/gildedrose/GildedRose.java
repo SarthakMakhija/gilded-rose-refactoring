@@ -28,12 +28,12 @@ class GildedRose {
             if (item.hasSellByPassed()) {
                 if (!item.name.equals("Aged Brie")) {
                     if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        item.dropQualityByOneIf(this.nonLegendaryItemMatch);
+                        item.degradeQualityByOneIf(this.nonLegendaryItemMatch);
                     } else {
                         item.quality = 0;
                     }
                 } else {
-                    item.increaseQualityByOne();
+                    item.improveQualityByOne();
                 }
             }
         }
@@ -49,7 +49,7 @@ class ItemUpdateActions {
         this.actions.put("Sulfuras, Hand of Ragnaros",
                 Action.empty());
         this.actions.put("Aged Brie",
-                new Action(Item::increaseQualityByOne, Item::dropSellInByOne));
+                new Action(Item::improveQualityByOne, Item::dropSellInByOne));
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
                 new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::dropSellInByOne));
     }
@@ -65,11 +65,11 @@ class ItemUpdateActions {
     //TODO: misplaced behavior
     private static void updateQualityBasedOnDaysLeftToSell(Item item) {
         if (item.daysLeftToSell() < 6)
-            item.increaseQualityBy(3);
+            item.improveQualityBy(3);
         else if (item.daysLeftToSell() < 11)
-            item.increaseQualityBy(2);
+            item.improveQualityBy(2);
         else
-            item.increaseQualityByOne();
+            item.improveQualityByOne();
     }
 
     //TODO: should Action contain both qualityUpdateAction and sellInUpdateAction, or should I have separate actions for each?
@@ -87,7 +87,7 @@ class ItemUpdateActions {
         }
 
         static Action degrade() {
-            return new Action(Item::dropQualityByOne, Item::dropSellInByOne);
+            return new Action(Item::degradeQualityByOne, Item::dropSellInByOne);
         }
     }
 }

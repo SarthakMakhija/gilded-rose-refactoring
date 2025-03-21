@@ -34,7 +34,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldIncreaseQualityByTwoForBackstageGivenLessThanTenDaysLeftToSell() {
+    public void shouldImproveQualityByTwoForBackstageGivenLessThanTenDaysLeftToSell() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 9, 40);
         actions.updateQualityFor(item);
@@ -43,7 +43,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldIncreaseQualityByThreeForBackstageGivenFiveDaysLeftToSell() {
+    public void shouldImproveQualityByThreeForBackstageGivenFiveDaysLeftToSell() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
         actions.updateQualityFor(item);
@@ -52,7 +52,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldDropQuality() {
+    public void shouldDegradeQuality() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Elixir of the Mongoose", 10, 40);
         actions.updateQualityFor(item);

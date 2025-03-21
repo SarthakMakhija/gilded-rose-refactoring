@@ -7,41 +7,41 @@ import static org.junit.Assert.*;
 public class ItemTest {
 
     @Test
-    public void dropQualityByOneIfTheGivenConditionHoldsTrue() {
+    public void degradeQualityByOneIfTheGivenConditionHoldsTrue() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropQualityByOneIf((Item item1) -> item1.name.contains("Elixir"));
+        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Elixir"));
 
         assertEquals(6, item.quality);
     }
 
     @Test
-    public void shouldNotDropQualityByOneGivenTheGivenConditionDoesNotHoldTrue() {
+    public void shouldNotDegradeQualityByOneGivenTheGivenConditionDoesNotHoldTrue() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
+        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
 
         assertEquals(7, item.quality);
     }
 
     @Test
-    public void dropQualityByOne() {
+    public void degradeQualityByOne() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropQualityByOne();
+        item.degradeQualityByOne();
 
         assertEquals(6, item.quality);
     }
 
     @Test
-    public void dropQualityByOneAndBringTheQualityToZero() {
+    public void degradeQualityByOneAndBringTheQualityToZero() {
         Item item = new Item("Elixir of the Mongoose", 5, 1);
-        item.dropQualityByOne();
+        item.degradeQualityByOne();
 
         assertEquals(0, item.quality);
     }
 
     @Test
-    public void shouldNotDropQualityByOne() {
+    public void shouldNotDegradeQualityByOne() {
         Item item = new Item("Elixir of the Mongoose", 5, 0);
-        item.dropQualityByOne();
+        item.degradeQualityByOne();
 
         assertEquals(0, item.quality);
     }
@@ -49,7 +49,7 @@ public class ItemTest {
     @Test
     public void shouldNotDropSellInByOneGivenTheGivenConditionDoesNotHoldTrue() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
+        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
 
         assertEquals(5, item.sellIn);
     }
@@ -71,9 +71,9 @@ public class ItemTest {
     }
 
     @Test
-    public void increaseQualityByOne() {
+    public void improveQualityByOne() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.increaseQualityByOne();
+        item.improveQualityByOne();
 
         assertEquals(8, item.quality);
     }
@@ -81,23 +81,23 @@ public class ItemTest {
     @Test
     public void shouldNotIncreaseQualityGivenItIsAlreadyAtItsPeak() {
         Item item = new Item("Elixir of the Mongoose", 5, Item.PeakQuality);
-        item.increaseQualityByOne();
+        item.improveQualityByOne();
 
         assertEquals(50, item.quality);
     }
 
     @Test
-    public void increaseQualityByFive() {
+    public void improveQualityByFive() {
         Item item = new Item("Elixir of the Mongoose", 5, 6);
-        item.increaseQualityBy(5);
+        item.improveQualityBy(5);
 
         assertEquals(11, item.quality);
     }
 
     @Test
-    public void increaseQualityByFourOnlyGivenItReachesItsPeak() {
+    public void improveQualityByFourOnlyGivenItReachesItsPeak() {
         Item item = new Item("Elixir of the Mongoose", 5, 46);
-        item.increaseQualityBy(10);
+        item.improveQualityBy(10);
 
         assertEquals(50, item.quality);
     }

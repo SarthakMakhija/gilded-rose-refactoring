@@ -18,23 +18,23 @@ public class Item {
         this.quality = quality;
     }
 
-    void dropQualityByOneIf(Predicate<Item> predicate) {
+    void degradeQualityByOneIf(Predicate<Item> predicate) {
         if (predicate.test(this)) {
-            dropQualityByOne();
+            degradeQualityByOne();
         }
     }
 
-    void dropQualityByOne() {
+    void degradeQualityByOne() {
         if (this.quality > 0) {
             this.quality = this.quality - 1;
         }
     }
 
-    void increaseQualityBy(int unit) {
-        for (int count = 1; count <= unit; count++) this.increaseQualityByOne();
+    void improveQualityBy(int unit) {
+        for (int count = 1; count <= unit; count++) this.improveQualityByOne();
     }
 
-    void increaseQualityByOne() {
+    void improveQualityByOne() {
         if (this.quality < PeakQuality) {
             this.quality = this.quality + 1;
         }

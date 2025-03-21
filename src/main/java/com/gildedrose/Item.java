@@ -40,12 +40,6 @@ public class Item {
         }
     }
 
-    void dropSellInByOneIf(Predicate<Item> predicate) {
-        if (predicate.test(this)) {
-            dropSellInByOne();
-        }
-    }
-
     void dropSellInByOne() {
         this.sellIn = this.sellIn - 1;
     }

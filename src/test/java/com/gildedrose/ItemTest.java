@@ -47,14 +47,6 @@ public class ItemTest {
     }
 
     @Test
-    public void dropSellInByOneIfTheGivenConditionHoldsTrue() {
-        Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropSellInByOneIf((Item item1) -> item1.name.contains("Elixir"));
-
-        assertEquals(4, item.sellIn);
-    }
-
-    @Test
     public void shouldNotDropSellInByOneGivenTheGivenConditionDoesNotHoldTrue() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.dropQualityByOneIf((Item item1) -> item1.name.contains("Mango"));

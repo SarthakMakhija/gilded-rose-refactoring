@@ -46,16 +46,12 @@ class ItemUpdateActions {
 
     ItemUpdateActions() {
         this.actions = new HashMap<>();
-        this.actions.put("Sulfuras, Hand of Ragnaros", Action.empty());
-        this.actions.put("Aged Brie", new Action(Item::increaseQualityByOne, Item::dropSellInByOne));
-        this.actions.put("Backstage passes to a TAFKAL80ETC concert", new Action((Item item) -> {
-            if (item.daysLeftToSell() < 6)
-                item.increaseQualityBy(3);
-            else if (item.daysLeftToSell() < 11)
-                item.increaseQualityBy(2);
-            else
-                item.increaseQualityByOne();
-        }, Item::dropSellInByOne));
+        this.actions.put("Sulfuras, Hand of Ragnaros",
+                Action.empty());
+        this.actions.put("Aged Brie",
+                new Action(Item::increaseQualityByOne, Item::dropSellInByOne));
+        this.actions.put("Backstage passes to a TAFKAL80ETC concert",
+                new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::dropSellInByOne));
     }
 
     void updateQualityFor(Item item) {
@@ -64,6 +60,15 @@ class ItemUpdateActions {
 
     void updateSellInFor(Item item) {
         this.actions.getOrDefault(item.name, Action.degrade()).sellInUpdateAction.accept(item);
+    }
+
+    private static void updateQualityBasedOnDaysLeftToSell(Item item) {
+        if (item.daysLeftToSell() < 6)
+            item.increaseQualityBy(3);
+        else if (item.daysLeftToSell() < 11)
+            item.increaseQualityBy(2);
+        else
+            item.increaseQualityByOne();
     }
 
     static class Action {

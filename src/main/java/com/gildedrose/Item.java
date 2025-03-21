@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.function.Predicate;
+
 public class Item {
 
     public String name;
@@ -16,6 +18,12 @@ public class Item {
         this.quality = quality;
     }
 
+    void dropQualityByOneIf(Predicate<Item> predicate) {
+        if (predicate.test(this)) {
+            dropQualityByOne();
+        }
+    }
+
     void dropQualityByOne() {
         if (this.quality > 0) {
             this.quality = this.quality - 1;
@@ -25,6 +33,12 @@ public class Item {
     void increaseQualityByOne() {
         if (this.quality < PeakQuality) {
             this.quality = this.quality + 1;
+        }
+    }
+
+    void dropSellInByOneIf(Predicate<Item> predicate) {
+        if (predicate.test(this)) {
+            dropSellInByOne();
         }
     }
 

@@ -46,6 +46,10 @@ public class Item {
         this.sellIn = this.sellIn - 1;
     }
 
+    boolean matchesName(String name) {
+        return this.name.equals(name);
+    }
+
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;

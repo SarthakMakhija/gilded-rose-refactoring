@@ -40,7 +40,7 @@ public class Item {
         }
     }
 
-    void dropSellInByOne() {
+    void reduceSellInByOne() {
         this.sellIn = this.sellIn - 1;
     }
 

@@ -47,7 +47,7 @@ public class ItemTest {
     }
 
     @Test
-    public void shouldNotDropSellInByOneGivenTheGivenConditionDoesNotHoldTrue() {
+    public void shouldNotReduceSellInByOneGivenTheGivenConditionDoesNotHoldTrue() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
 
@@ -55,17 +55,17 @@ public class ItemTest {
     }
 
     @Test
-    public void dropSellInByOne() {
+    public void reduceSellInByOne() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.dropSellInByOne();
+        item.reduceSellInByOne();
 
         assertEquals(4, item.sellIn);
     }
 
     @Test
-    public void shouldDropSellInByOneMakingItNegative() {
+    public void shouldReduceSellInByOneMakingItNegative() {
         Item item = new Item("Elixir of the Mongoose", 0, 0);
-        item.dropSellInByOne();
+        item.reduceSellInByOne();
 
         assertEquals(-1, item.sellIn);
     }

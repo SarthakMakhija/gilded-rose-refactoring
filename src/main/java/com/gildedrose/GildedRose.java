@@ -49,9 +49,9 @@ class ItemUpdateActions {
         this.actions.put("Sulfuras, Hand of Ragnaros",
                 Action.empty());
         this.actions.put("Aged Brie",
-                new Action(Item::improveQualityByOne, Item::dropSellInByOne));
+                new Action(Item::improveQualityByOne, Item::reduceSellInByOne));
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
-                new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::dropSellInByOne));
+                new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne));
     }
 
     void updateQualityFor(Item item) {
@@ -87,7 +87,7 @@ class ItemUpdateActions {
         }
 
         static Action degrade() {
-            return new Action(Item::degradeQualityByOne, Item::dropSellInByOne);
+            return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne);
         }
     }
 }

@@ -20,6 +20,12 @@ public class Item {
         }
     }
 
+    void increaseQualityByOne() {
+        if (this.quality < 50) {
+            this.quality = this.quality + 1;
+        }
+    }
+
     void dropSellInByOne() {
         this.sellIn = this.sellIn - 1;
     }

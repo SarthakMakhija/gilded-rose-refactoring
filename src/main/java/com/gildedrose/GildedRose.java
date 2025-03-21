@@ -47,19 +47,19 @@ class ItemUpdateActions {
     ItemUpdateActions() {
         this.actions = new HashMap<>();
         this.actions.put("Sulfuras, Hand of Ragnaros",
-                Action.empty());
+                Action.nothing());
         this.actions.put("Aged Brie",
-                new Action(Item::improveQualityByOne, Item::reduceSellInByOne));
+                Action.improveQualityWithPassingTime());
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
                 new Action(ItemUpdateActions::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne));
     }
 
     void updateQualityFor(Item item) {
-        this.actions.getOrDefault(item.name, Action.degrade()).qualityUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.degradeQualityWithPassingTime()).qualityUpdateAction.accept(item);
     }
 
     void updateSellInFor(Item item) {
-        this.actions.getOrDefault(item.name, Action.degrade()).sellInUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, Action.degradeQualityWithPassingTime()).sellInUpdateAction.accept(item);
     }
 
     //TODO: misplaced behavior
@@ -82,11 +82,15 @@ class ItemUpdateActions {
             this.sellInUpdateAction = sellInUpdateAction;
         }
 
-        static Action empty() {
+        static Action nothing() {
             return new Action((Item item) -> {}, (Item item) -> {});
         }
 
-        static Action degrade() {
+        static Action improveQualityWithPassingTime() {
+            return new Action(Item::improveQualityByOne, Item::reduceSellInByOne);
+        }
+
+        static Action degradeQualityWithPassingTime() {
             return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne);
         }
     }

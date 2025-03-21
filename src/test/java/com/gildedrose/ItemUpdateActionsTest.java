@@ -4,59 +4,77 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class QualityUpdateActionsTest {
+public class ItemUpdateActionsTest {
 
     @Test
     public void shouldNotUpdateQualityForSulfuras() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(40, item.quality);
     }
 
     @Test
     public void shouldIncreaseQualityForAgedBrie() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Aged Brie", 10, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(41, item.quality);
     }
 
     @Test
     public void shouldIncreaseQualityForBackstage() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 20, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(41, item.quality);
     }
 
     @Test
     public void shouldIncreaseQualityByTwoForBackstageGivenLessThanTenDaysLeftToSell() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 9, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(42, item.quality);
     }
 
     @Test
     public void shouldIncreaseQualityByThreeForBackstageGivenFiveDaysLeftToSell() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(43, item.quality);
     }
 
     @Test
     public void shouldDropQuality() {
-        QualityUpdateActions qualityUpdateActions = new QualityUpdateActions();
+        ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Elixir of the Mongoose", 10, 40);
-        qualityUpdateActions.updateQualityFor(item);
+        actions.updateQualityFor(item);
 
         assertEquals(39, item.quality);
+    }
+
+    @Test
+    public void shouldUpdateSellIn() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 10, 40);
+        actions.updateSellInFor(item);
+
+        assertEquals(9, item.sellIn);
+    }
+
+    @Test
+    public void shouldNotUpdateSellInForSulphur() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
+        actions.updateSellInFor(item);
+
+        assertEquals(10, item.sellIn);
     }
 }

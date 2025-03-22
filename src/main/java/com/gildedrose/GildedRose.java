@@ -9,7 +9,6 @@ class GildedRose {
     private final ItemUpdateActions itemUpdateActions;
 
     //TODO:
-    //1. Magic numbers "item names", 6, 3, 11, 2 ...
     //2. Visibility specifiers for fields and methods
     public GildedRose(Item[] items) {
         this.items = items;

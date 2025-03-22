@@ -1,7 +1,5 @@
 package com.gildedrose;
 
-import java.util.function.Predicate;
-
 public class Item {
 
     public String name;
@@ -40,10 +38,6 @@ public class Item {
 
     void reduceSellInByOne() {
         this.sellIn = this.sellIn - 1;
-    }
-
-    boolean matchesName(String name) {
-        return this.name.equals(name);
     }
 
     boolean hasSellByPassed() {

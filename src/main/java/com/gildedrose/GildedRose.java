@@ -26,14 +26,12 @@ class GildedRose {
             this.itemUpdateActions.updateSellInFor(item);
 
             if (item.hasSellByPassed()) {
-                if (!item.name.equals("Aged Brie")) {
-                    if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        item.degradeQualityByOneIf(this.nonLegendaryItemMatch);
-                    } else {
-                        item.quality = 0;
-                    }
-                } else {
+                if (item.name.equals("Aged Brie")) {
                     item.improveQualityByOne();
+                } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                    item.quality = 0;
+                } else {
+                    item.degradeQualityByOneIf(this.nonLegendaryItemMatch);
                 }
             }
         }

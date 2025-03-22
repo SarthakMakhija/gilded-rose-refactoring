@@ -18,12 +18,6 @@ public class Item {
         this.quality = quality;
     }
 
-    void degradeQualityByOneIf(Predicate<Item> predicate) {
-        if (predicate.test(this)) {
-            degradeQualityByOne();
-        }
-    }
-
     void degradeQualityByOne() {
         if (this.quality > 0) {
             this.quality = this.quality - 1;
@@ -38,6 +32,10 @@ public class Item {
         if (this.quality < PeakQuality) {
             this.quality = this.quality + 1;
         }
+    }
+
+    void resetQuality() {
+        this.quality = 0;
     }
 
     void reduceSellInByOne() {

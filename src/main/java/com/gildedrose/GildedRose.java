@@ -3,20 +3,16 @@ package com.gildedrose;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 class GildedRose {
     Item[] items;
-    private final Predicate<Item> nonLegendaryItemMatch;
     private final ItemUpdateActions itemUpdateActions;
 
     //TODO:
     //1. Magic numbers "item names", 6, 3, 11, 2 ...
-    //2. Duplication in magic numbers, Sulfuras...
-    //3. Visibility specifiers for fields and methods
+    //2. Visibility specifiers for fields and methods
     public GildedRose(Item[] items) {
         this.items = items;
-        this.nonLegendaryItemMatch = ((Predicate<Item>) (Item item) -> item.matchesName("Sulfuras, Hand of Ragnaros")).negate();
         this.itemUpdateActions = new ItemUpdateActions();
     }
 
@@ -24,16 +20,7 @@ class GildedRose {
         for (Item item : items) {
             this.itemUpdateActions.updateQualityFor(item);
             this.itemUpdateActions.updateSellInFor(item);
-
-            if (item.hasSellByPassed()) {
-                if (item.name.equals("Aged Brie")) {
-                    item.improveQualityByOne();
-                } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                    item.quality = 0;
-                } else {
-                    item.degradeQualityByOneIf(this.nonLegendaryItemMatch);
-                }
-            }
+            this.itemUpdateActions.updateQualityPostSellInFor(item);
         }
     }
 }
@@ -52,43 +39,61 @@ class ItemUpdateActions {
     }
 
     void updateQualityFor(Item item) {
-        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).qualityUpdateAction.accept(item);
+        this.actions.
+                getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).
+                qualityUpdateAction.
+                accept(item);
     }
 
     void updateSellInFor(Item item) {
-        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).sellInUpdateAction.accept(item);
+        this.actions.
+                getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).
+                sellInUpdateAction.
+                accept(item);
+    }
+
+    void updateQualityPostSellInFor(Item item) {
+        if (item.hasSellByPassed()) {
+            this.actions.
+                    getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).
+                    postSellInQualityUpdateAction.
+                    accept(item);
+        }
     }
 
     static class Action {
         final Consumer<Item> qualityUpdateAction;
         final Consumer<Item> sellInUpdateAction;
+        final Consumer<Item> postSellInQualityUpdateAction;
 
-        private Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction) {
+        private Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction, Consumer<Item> postSellInQualityUpdateAction) {
             this.qualityUpdateAction = qualityUpdateAction;
             this.sellInUpdateAction = sellInUpdateAction;
+            this.postSellInQualityUpdateAction = postSellInQualityUpdateAction;
         }
 
         static Action nothing() {
-            return new Action((Item item) -> {}, (Item item) -> {});
+            return new Action((Item item) -> {}, (Item item) -> {}, (Item item) -> {});
         }
     }
 
     static class ImproveQualityWithPassingTimeActionProvider {
         static Action provide() {
-            return new Action(Item::improveQualityByOne, Item::reduceSellInByOne);
+            return new Action(Item::improveQualityByOne, Item::reduceSellInByOne, Item::improveQualityByOne);
         }
     }
 
     static class DegradeQualityWithPassingTimeActionProvider {
         static Action provide() {
-            return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne);
+            return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne, Item::degradeQualityByOne);
         }
     }
 
     static class BackstageBasedActionProvider {
         static Action provide() {
-            return new Action(BackstageBasedActionProvider::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne);
+            return new Action(BackstageBasedActionProvider::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne, Item::resetQuality);
         }
+
         private static void updateQualityBasedOnDaysLeftToSell(Item item) {
             if (item.daysLeftToSell() < 6)
                 item.improveQualityBy(3);

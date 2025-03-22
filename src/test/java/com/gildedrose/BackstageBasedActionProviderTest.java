@@ -2,7 +2,7 @@ package com.gildedrose;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BackstageBasedActionProviderTest {
 
@@ -31,6 +31,15 @@ public class BackstageBasedActionProviderTest {
         action.qualityUpdateAction.accept(item);
 
         assertEquals(43, item.quality);
+    }
+
+    @Test
+    public void shouldResetQualityPostSellIn() {
+        ItemUpdateActions.Action action = ItemUpdateActions.BackstageBasedActionProvider.provide();
+        Item item = new Item("Aged Brie", -1, 40);
+
+        action.postSellInQualityUpdateAction.accept(item);
+        assertEquals(0, item.quality);
     }
 
     @Test

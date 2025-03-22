@@ -7,22 +7,6 @@ import static org.junit.Assert.*;
 public class ItemTest {
 
     @Test
-    public void degradeQualityByOneIfTheGivenConditionHoldsTrue() {
-        Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Elixir"));
-
-        assertEquals(6, item.quality);
-    }
-
-    @Test
-    public void shouldNotDegradeQualityByOneGivenTheGivenConditionDoesNotHoldTrue() {
-        Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
-
-        assertEquals(7, item.quality);
-    }
-
-    @Test
     public void degradeQualityByOne() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.degradeQualityByOne();
@@ -44,14 +28,6 @@ public class ItemTest {
         item.degradeQualityByOne();
 
         assertEquals(0, item.quality);
-    }
-
-    @Test
-    public void shouldNotReduceSellInByOneGivenTheGivenConditionDoesNotHoldTrue() {
-        Item item = new Item("Elixir of the Mongoose", 5, 7);
-        item.degradeQualityByOneIf((Item item1) -> item1.name.contains("Mango"));
-
-        assertEquals(5, item.sellIn);
     }
 
     @Test

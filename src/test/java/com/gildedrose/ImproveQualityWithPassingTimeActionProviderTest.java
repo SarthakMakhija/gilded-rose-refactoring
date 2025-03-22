@@ -23,4 +23,13 @@ public class ImproveQualityWithPassingTimeActionProviderTest {
         action.sellInUpdateAction.accept(item);
         assertEquals(9, item.sellIn);
     }
+
+    @Test
+    public void shouldImproveQualityPostSellIn() {
+        ItemUpdateActions.Action action = ItemUpdateActions.ImproveQualityWithPassingTimeActionProvider.provide();
+        Item item = new Item("Aged Brie", -1, 40);
+
+        action.postSellInQualityUpdateAction.accept(item);
+        assertEquals(41, item.quality);
+    }
 }

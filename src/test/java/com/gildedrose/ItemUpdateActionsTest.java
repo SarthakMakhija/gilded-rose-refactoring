@@ -16,10 +16,28 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
+    public void shouldNotUpdateQualityForSulfurasPostSellIn() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Sulfuras, Hand of Ragnaros", -1, 40);
+        actions.updateQualityPostSellInFor(item);
+
+        assertEquals(40, item.quality);
+    }
+
+    @Test
     public void shouldImproveQualityForAgedBrie() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Aged Brie", 10, 40);
         actions.updateQualityFor(item);
+
+        assertEquals(41, item.quality);
+    }
+
+    @Test
+    public void shouldImproveQualityForAgedBriePostSellIn() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Aged Brie", -1, 40);
+        actions.updateQualityPostSellInFor(item);
 
         assertEquals(41, item.quality);
     }
@@ -58,6 +76,15 @@ public class ItemUpdateActionsTest {
         actions.updateQualityFor(item);
 
         assertEquals(39, item.quality);
+    }
+
+    @Test
+    public void shouldResetQualityForBackstagePostSellIn() {
+        ItemUpdateActions actions = new ItemUpdateActions();
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", -1, 40);
+        actions.updateQualityPostSellInFor(item);
+
+        assertEquals(0, item.quality);
     }
 
     @Test

@@ -18,9 +18,7 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            this.itemUpdateActions.updateQualityFor(item);
-            this.itemUpdateActions.updateSellInFor(item);
-            this.itemUpdateActions.updateQualityPostSellInFor(item);
+            this.itemUpdateActions.update(item);
         }
     }
 }
@@ -36,6 +34,12 @@ class ItemUpdateActions {
                 ImproveQualityWithPassingTimeActionProvider.provide());
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
                 BackstageBasedActionProvider.provide());
+    }
+
+    void update(Item item) {
+        this.updateQualityFor(item);
+        this.updateSellInFor(item);
+        this.updateQualityPostSellInFor(item);
     }
 
     void updateQualityFor(Item item) {

@@ -32,17 +32,17 @@ class ItemUpdateActions {
     ItemUpdateActions() {
         this.actionsByItemName = new HashMap<>();
         this.actionsByItemName.put("Sulfuras, Hand of Ragnaros",
-                Actions.empty().
+                Actions.sensible().
                         addQualityUpdateAction(Action.nothing()).
                         addSellInUpdateAction(Action.nothing()).
                         addPostSellInQualityUpdateAction(Action.nothing()));
         this.actionsByItemName.put("Aged Brie",
-                Actions.empty().
+                Actions.sensible().
                         addQualityUpdateAction(ImproveQualityActionProvider.provide()).
                         addSellInUpdateAction(ReduceSellInActionProvider.provide()).
                         addPostSellInQualityUpdateAction(ImproveQualityActionProvider.provide()));
         this.actionsByItemName.put("Backstage passes to a TAFKAL80ETC concert",
-                Actions.empty().
+                Actions.sensible().
                         addQualityUpdateAction(BackstageBasedQualityUpdateActionProvider.provide()).
                         addSellInUpdateAction(ReduceSellInActionProvider.provide()).
                         addPostSellInQualityUpdateAction(ResetQualityActionProvider.provide()));
@@ -55,24 +55,28 @@ class ItemUpdateActions {
     }
 
     private void updateQualityFor(Item item) {
-        this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateQualityFor(item);
+        this.actionsByItemName.getOrDefault(item.name(), Actions.sensible()).updateQualityFor(item);
     }
 
     private void updateSellInFor(Item item) {
-        this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateSellInFor(item);
+        this.actionsByItemName.getOrDefault(item.name(), Actions.sensible()).updateSellInFor(item);
     }
 
     private void updateQualityPostSellInFor(Item item) {
         if (item.hasSellByPassed()) {
-            this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateQualityPostSellInFor(item);
+            this.actionsByItemName.getOrDefault(item.name(), Actions.sensible()).updateQualityPostSellInFor(item);
         }
     }
 
     static class Actions {
         private final List<Action> actions = new ArrayList<>(3);
 
-        static Actions empty() {
-            return new Actions();
+        static Actions sensible() {
+            Actions actions = new Actions();
+            actions.actions.add(DegradeQualityActionProvider.provide());
+            actions.actions.add(ReduceSellInActionProvider.provide());
+            actions.actions.add(DegradeQualityActionProvider.provide());
+            return actions;
         }
 
         Actions addQualityUpdateAction(Action action) {
@@ -91,18 +95,15 @@ class ItemUpdateActions {
         }
 
         void updateQualityFor(Item item) {
-            if (actions.isEmpty()) DegradeQualityActionProvider.provide().actOn(item);
-            else actions.get(0).actOn(item);
+            actions.get(0).actOn(item);
         }
 
         void updateSellInFor(Item item) {
-            if (actions.isEmpty()) ReduceSellInActionProvider.provide().actOn(item);
-            else actions.get(1).actOn(item);
+            actions.get(1).actOn(item);
         }
 
         void updateQualityPostSellInFor(Item item) {
-            if (actions.isEmpty()) DegradeQualityActionProvider.provide().actOn(item);
-            else actions.get(2).actOn(item);
+            actions.get(2).actOn(item);
         }
     }
 

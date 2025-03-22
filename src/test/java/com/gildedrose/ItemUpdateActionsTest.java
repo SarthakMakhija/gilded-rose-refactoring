@@ -10,7 +10,7 @@ public class ItemUpdateActionsTest {
     public void shouldNotUpdateQualityForSulfuras() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(40, item.quality);
     }
@@ -19,7 +19,7 @@ public class ItemUpdateActionsTest {
     public void shouldNotUpdateQualityForSulfurasPostSellIn() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Sulfuras, Hand of Ragnaros", -1, 40);
-        actions.updateQualityPostSellInFor(item);
+        actions.update(item);
 
         assertEquals(40, item.quality);
     }
@@ -28,7 +28,7 @@ public class ItemUpdateActionsTest {
     public void shouldImproveQualityForAgedBrie() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Aged Brie", 10, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(41, item.quality);
     }
@@ -37,16 +37,16 @@ public class ItemUpdateActionsTest {
     public void shouldImproveQualityForAgedBriePostSellIn() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Aged Brie", -1, 40);
-        actions.updateQualityPostSellInFor(item);
+        actions.update(item);
 
-        assertEquals(41, item.quality);
+        assertEquals(42, item.quality);
     }
 
     @Test
     public void shouldImproveQualityForBackstage() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 20, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(41, item.quality);
     }
@@ -55,7 +55,7 @@ public class ItemUpdateActionsTest {
     public void shouldImproveQualityByTwoForBackstageGivenLessThanTenDaysLeftToSell() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 9, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(42, item.quality);
     }
@@ -64,7 +64,7 @@ public class ItemUpdateActionsTest {
     public void shouldImproveQualityByThreeForBackstageGivenFiveDaysLeftToSell() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(43, item.quality);
     }
@@ -73,7 +73,7 @@ public class ItemUpdateActionsTest {
     public void shouldDegradeQualityWithPassingTimeQuality() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Elixir of the Mongoose", 10, 40);
-        actions.updateQualityFor(item);
+        actions.update(item);
 
         assertEquals(39, item.quality);
     }
@@ -82,7 +82,7 @@ public class ItemUpdateActionsTest {
     public void shouldResetQualityForBackstagePostSellIn() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", -1, 40);
-        actions.updateQualityPostSellInFor(item);
+        actions.update(item);
 
         assertEquals(0, item.quality);
     }
@@ -91,7 +91,7 @@ public class ItemUpdateActionsTest {
     public void shouldUpdateSellIn() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 10, 40);
-        actions.updateSellInFor(item);
+        actions.update(item);
 
         assertEquals(9, item.sellIn);
     }
@@ -100,7 +100,7 @@ public class ItemUpdateActionsTest {
     public void shouldUpdateSellInTakingTheItToNegative() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 0, 40);
-        actions.updateSellInFor(item);
+        actions.update(item);
 
         assertEquals(-1, item.sellIn);
     }
@@ -109,7 +109,7 @@ public class ItemUpdateActionsTest {
     public void shouldNotUpdateSellInForSulphur() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
-        actions.updateSellInFor(item);
+        actions.update(item);
 
         assertEquals(10, item.sellIn);
     }

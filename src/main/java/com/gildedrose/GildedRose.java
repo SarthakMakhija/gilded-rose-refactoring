@@ -42,21 +42,21 @@ class ItemUpdateActions {
         this.updateQualityPostSellInFor(item);
     }
 
-    void updateQualityFor(Item item) {
+    private void updateQualityFor(Item item) {
         this.actions.
                 getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).
                 qualityUpdateAction.
                 accept(item);
     }
 
-    void updateSellInFor(Item item) {
+    private void updateSellInFor(Item item) {
         this.actions.
                 getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).
                 sellInUpdateAction.
                 accept(item);
     }
 
-    void updateQualityPostSellInFor(Item item) {
+    private void updateQualityPostSellInFor(Item item) {
         if (item.hasSellByPassed()) {
             this.actions.
                     getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).

@@ -5,20 +5,22 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 class GildedRose {
-    Item[] items;
+    private final Item[] items;
     private final ItemUpdateActions itemUpdateActions;
 
-    //TODO:
-    //2. Visibility specifiers for fields and methods
     public GildedRose(Item[] items) {
         this.items = items;
         this.itemUpdateActions = new ItemUpdateActions();
     }
 
-    public void updateQuality() {
+    public void update() {
         for (Item item : items) {
             this.itemUpdateActions.update(item);
         }
+    }
+
+    Item[] items() {
+        return this.items;
     }
 }
 

@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class FunctionalTest {
+public class GildedRoseFunctionalTest {
 
     @Test
     public void allItemsStateAfterUpdate() {

@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -25,16 +26,16 @@ class GildedRose {
 }
 
 class ItemUpdateActions {
-    private final Map<String, Action> actions;
+    private final Map<String, List<Action>> actionsByItemName;
 
     ItemUpdateActions() {
-        this.actions = new HashMap<>();
-        this.actions.put("Sulfuras, Hand of Ragnaros",
-                Action.nothing());
-        this.actions.put("Aged Brie",
-                ImproveQualityWithPassingTimeActionProvider.provide());
-        this.actions.put("Backstage passes to a TAFKAL80ETC concert",
-                BackstageBasedActionProvider.provide());
+        this.actionsByItemName = new HashMap<>();
+        this.actionsByItemName.put("Sulfuras, Hand of Ragnaros",
+                List.of(Action.nothing(), Action.nothing(), Action.nothing()));
+        this.actionsByItemName.put("Aged Brie",
+                List.of(ImproveQualityActionProvider.provide(), ReduceSellInActionProvider.provide(), ImproveQualityActionProvider.provide()));
+        this.actionsByItemName.put("Backstage passes to a TAFKAL80ETC concert",
+                List.of(BackstageBasedQualityUpdateActionProvider.provide(), ReduceSellInActionProvider.provide(), ResetQualityActionProvider.provide()));
     }
 
     void update(Item item) {
@@ -44,60 +45,78 @@ class ItemUpdateActions {
     }
 
     private void updateQualityFor(Item item) {
-        this.actions.
-                getOrDefault(item.name(), DegradeQualityWithPassingTimeActionProvider.provide()).
-                qualityUpdateAction.
-                accept(item);
+        List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
+        if (actions.isEmpty()) {
+            DegradeQualityActionProvider.provide().actOn(item);
+            return;
+        }
+        actions.get(0).actOn(item);
     }
 
     private void updateSellInFor(Item item) {
-        this.actions.
-                getOrDefault(item.name(), DegradeQualityWithPassingTimeActionProvider.provide()).
-                sellInUpdateAction.
-                accept(item);
+        List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
+        if (actions.isEmpty()) {
+            ReduceSellInActionProvider.provide().actOn(item);
+            return;
+        }
+        actions.get(1).actOn(item);
     }
 
     private void updateQualityPostSellInFor(Item item) {
         if (item.hasSellByPassed()) {
-            this.actions.
-                    getOrDefault(item.name(), DegradeQualityWithPassingTimeActionProvider.provide()).
-                    postSellInQualityUpdateAction.
-                    accept(item);
+            List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
+            if (actions.isEmpty()) {
+                DegradeQualityActionProvider.provide().actOn(item);
+                return;
+            }
+            actions.get(2).actOn(item);
         }
     }
 
     //TODO: revisit this (maybe separate out quality and sell update concepts) and the map as a data structure inside ItemUpdateActions
     static class Action {
-        final Consumer<Item> qualityUpdateAction;
-        final Consumer<Item> sellInUpdateAction;
-        final Consumer<Item> postSellInQualityUpdateAction;
+        final Consumer<Item> block;
 
-        private Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction, Consumer<Item> postSellInQualityUpdateAction) {
-            this.qualityUpdateAction = qualityUpdateAction;
-            this.sellInUpdateAction = sellInUpdateAction;
-            this.postSellInQualityUpdateAction = postSellInQualityUpdateAction;
+        private Action(Consumer<Item> block) {
+            this.block = block;
         }
 
         static Action nothing() {
-            return new Action((Item item) -> {}, (Item item) -> {}, (Item item) -> {});
+            return new Action((Item item) -> {});
+        }
+
+        void actOn(Item item) {
+            this.block.accept(item);
         }
     }
 
-    static class ImproveQualityWithPassingTimeActionProvider {
+    static class ImproveQualityActionProvider {
         static Action provide() {
-            return new Action(Item::improveQualityByOne, Item::reduceSellInByOne, Item::improveQualityByOne);
+            return new Action(Item::improveQualityByOne);
         }
     }
 
-    static class DegradeQualityWithPassingTimeActionProvider {
+    static class DegradeQualityActionProvider {
         static Action provide() {
-            return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne, Item::degradeQualityByOne);
+            return new Action(Item::degradeQualityByOne);
         }
     }
 
-    static class BackstageBasedActionProvider {
+    static class ReduceSellInActionProvider {
         static Action provide() {
-            return new Action(BackstageBasedActionProvider::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne, Item::resetQuality);
+            return new Action(Item::reduceSellInByOne);
+        }
+    }
+
+    static class ResetQualityActionProvider {
+        static Action provide() {
+            return new Action(Item::resetQuality);
+        }
+    }
+
+    static class BackstageBasedQualityUpdateActionProvider {
+        static Action provide() {
+            return new Action(BackstageBasedQualityUpdateActionProvider::updateQualityBasedOnDaysLeftToSell);
         }
 
         private static void updateQualityBasedOnDaysLeftToSell(Item item) {

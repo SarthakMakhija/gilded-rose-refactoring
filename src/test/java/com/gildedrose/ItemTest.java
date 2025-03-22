@@ -35,7 +35,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.reduceSellInByOne();
 
-        assertEquals(4, item.sellIn);
+        assertEquals(4, item.sellIn());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 0, 0);
         item.reduceSellInByOne();
 
-        assertEquals(-1, item.sellIn);
+        assertEquals(-1, item.sellIn());
     }
 
     @Test

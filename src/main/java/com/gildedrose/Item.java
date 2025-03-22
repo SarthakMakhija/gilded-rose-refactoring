@@ -56,6 +56,10 @@ public class Item {
         return this.quality;
     }
 
+    public int sellIn() {
+        return this.sellIn;
+    }
+
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;

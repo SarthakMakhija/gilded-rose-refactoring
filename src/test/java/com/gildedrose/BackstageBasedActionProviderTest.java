@@ -48,6 +48,6 @@ public class BackstageBasedActionProviderTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
 
         action.sellInUpdateAction.accept(item);
-        assertEquals(4, item.sellIn);
+        assertEquals(4, item.sellIn());
     }
 }

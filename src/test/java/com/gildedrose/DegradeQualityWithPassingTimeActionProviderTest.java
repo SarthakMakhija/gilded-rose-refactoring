@@ -21,7 +21,7 @@ public class DegradeQualityWithPassingTimeActionProviderTest {
         Item item = new Item("Aged Brie", 10, 40);
 
         action.sellInUpdateAction.accept(item);
-        assertEquals(9, item.sellIn);
+        assertEquals(9, item.sellIn());
     }
 
     @Test

@@ -93,7 +93,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 10, 40);
         actions.update(item);
 
-        assertEquals(9, item.sellIn);
+        assertEquals(9, item.sellIn());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 0, 40);
         actions.update(item);
 
-        assertEquals(-1, item.sellIn);
+        assertEquals(-1, item.sellIn());
     }
 
     @Test
@@ -111,6 +111,6 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
         actions.update(item);
 
-        assertEquals(10, item.sellIn);
+        assertEquals(10, item.sellIn());
     }
 }

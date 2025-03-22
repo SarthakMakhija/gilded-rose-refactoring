@@ -66,6 +66,7 @@ class ItemUpdateActions {
         }
     }
 
+    //TODO: revisit this (maybe separate out quality and sell update concepts) and the map as a data structure inside ItemUpdateActions
     static class Action {
         final Consumer<Item> qualityUpdateAction;
         final Consumer<Item> sellInUpdateAction;

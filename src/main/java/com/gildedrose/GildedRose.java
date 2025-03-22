@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +27,25 @@ class GildedRose {
 }
 
 class ItemUpdateActions {
-    private final Map<String, List<Action>> actionsByItemName;
+    private final Map<String, Actions> actionsByItemName;
 
     ItemUpdateActions() {
         this.actionsByItemName = new HashMap<>();
         this.actionsByItemName.put("Sulfuras, Hand of Ragnaros",
-                List.of(Action.nothing(), Action.nothing(), Action.nothing()));
+                Actions.empty().
+                        addQualityUpdateAction(Action.nothing()).
+                        addSellInUpdateAction(Action.nothing()).
+                        addPostSellInQualityUpdateAction(Action.nothing()));
         this.actionsByItemName.put("Aged Brie",
-                List.of(ImproveQualityActionProvider.provide(), ReduceSellInActionProvider.provide(), ImproveQualityActionProvider.provide()));
+                Actions.empty().
+                        addQualityUpdateAction(ImproveQualityActionProvider.provide()).
+                        addSellInUpdateAction(ReduceSellInActionProvider.provide()).
+                        addPostSellInQualityUpdateAction(ImproveQualityActionProvider.provide()));
         this.actionsByItemName.put("Backstage passes to a TAFKAL80ETC concert",
-                List.of(BackstageBasedQualityUpdateActionProvider.provide(), ReduceSellInActionProvider.provide(), ResetQualityActionProvider.provide()));
+                Actions.empty().
+                        addQualityUpdateAction(BackstageBasedQualityUpdateActionProvider.provide()).
+                        addSellInUpdateAction(ReduceSellInActionProvider.provide()).
+                        addPostSellInQualityUpdateAction(ResetQualityActionProvider.provide()));
     }
 
     void update(Item item) {
@@ -45,37 +55,59 @@ class ItemUpdateActions {
     }
 
     private void updateQualityFor(Item item) {
-        List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
-        if (actions.isEmpty()) {
-            DegradeQualityActionProvider.provide().actOn(item);
-            return;
-        }
-        actions.get(0).actOn(item);
+        this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateQualityFor(item);
     }
 
     private void updateSellInFor(Item item) {
-        List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
-        if (actions.isEmpty()) {
-            ReduceSellInActionProvider.provide().actOn(item);
-            return;
-        }
-        actions.get(1).actOn(item);
+        this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateSellInFor(item);
     }
 
     private void updateQualityPostSellInFor(Item item) {
         if (item.hasSellByPassed()) {
-            List<Action> actions = this.actionsByItemName.getOrDefault(item.name(), List.of());
-            if (actions.isEmpty()) {
-                DegradeQualityActionProvider.provide().actOn(item);
-                return;
-            }
-            actions.get(2).actOn(item);
+            this.actionsByItemName.getOrDefault(item.name(), Actions.empty()).updateQualityPostSellInFor(item);
         }
     }
 
-    //TODO: revisit this (maybe separate out quality and sell update concepts) and the map as a data structure inside ItemUpdateActions
+    static class Actions {
+        private final List<Action> actions = new ArrayList<>(3);
+
+        static Actions empty() {
+            return new Actions();
+        }
+
+        Actions addQualityUpdateAction(Action action) {
+            this.actions.add(0, action);
+            return this;
+        }
+
+        Actions addSellInUpdateAction(Action action) {
+            this.actions.add(1, action);
+            return this;
+        }
+
+        Actions addPostSellInQualityUpdateAction(Action action) {
+            this.actions.add(2, action);
+            return this;
+        }
+
+        void updateQualityFor(Item item) {
+            if (actions.isEmpty()) DegradeQualityActionProvider.provide().actOn(item);
+            else actions.get(0).actOn(item);
+        }
+
+        void updateSellInFor(Item item) {
+            if (actions.isEmpty()) ReduceSellInActionProvider.provide().actOn(item);
+            else actions.get(1).actOn(item);
+        }
+
+        void updateQualityPostSellInFor(Item item) {
+            if (actions.isEmpty()) DegradeQualityActionProvider.provide().actOn(item);
+            else actions.get(2).actOn(item);
+        }
+    }
+
     static class Action {
-        final Consumer<Item> block;
+        private final Consumer<Item> block;
 
         private Action(Consumer<Item> block) {
             this.block = block;

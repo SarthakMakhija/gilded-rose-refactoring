@@ -79,7 +79,7 @@ public class ItemTest {
     }
 
     @Test
-    public void shouldNotIncreaseQualityGivenItIsAlreadyAtItsPeak() {
+    public void shouldNotImproveQualityGivenItIsAlreadyAtItsPeak() {
         Item item = new Item("Elixir of the Mongoose", 5, Item.PeakQuality);
         item.improveQualityByOne();
 

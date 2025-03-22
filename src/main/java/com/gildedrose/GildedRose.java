@@ -48,17 +48,17 @@ class ItemUpdateActions {
         this.actions.put("Sulfuras, Hand of Ragnaros",
                 Action.nothing());
         this.actions.put("Aged Brie",
-                ImproveQualityWithPassingTimeAction.create());
+                ImproveQualityWithPassingTimeActionProvider.provide());
         this.actions.put("Backstage passes to a TAFKAL80ETC concert",
-                BackstageBasedAction.create());
+                BackstageBasedActionProvider.provide());
     }
 
     void updateQualityFor(Item item) {
-        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeAction.create()).qualityUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).qualityUpdateAction.accept(item);
     }
 
     void updateSellInFor(Item item) {
-        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeAction.create()).sellInUpdateAction.accept(item);
+        this.actions.getOrDefault(item.name, DegradeQualityWithPassingTimeActionProvider.provide()).sellInUpdateAction.accept(item);
     }
 
     static class Action {
@@ -75,21 +75,21 @@ class ItemUpdateActions {
         }
     }
 
-    static class ImproveQualityWithPassingTimeAction {
-        static Action create() {
+    static class ImproveQualityWithPassingTimeActionProvider {
+        static Action provide() {
             return new Action(Item::improveQualityByOne, Item::reduceSellInByOne);
         }
     }
 
-    static class DegradeQualityWithPassingTimeAction {
-        static Action create() {
+    static class DegradeQualityWithPassingTimeActionProvider {
+        static Action provide() {
             return new Action(Item::degradeQualityByOne, Item::reduceSellInByOne);
         }
     }
 
-    static class BackstageBasedAction {
-        static Action create() {
-            return new Action(BackstageBasedAction::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne);
+    static class BackstageBasedActionProvider {
+        static Action provide() {
+            return new Action(BackstageBasedActionProvider::updateQualityBasedOnDaysLeftToSell, Item::reduceSellInByOne);
         }
         private static void updateQualityBasedOnDaysLeftToSell(Item item) {
             if (item.daysLeftToSell() < 6)

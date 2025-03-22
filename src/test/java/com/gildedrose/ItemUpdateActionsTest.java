@@ -16,7 +16,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldIncreaseQualityForAgedBrie() {
+    public void shouldImproveQualityForAgedBrie() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Aged Brie", 10, 40);
         actions.updateQualityFor(item);
@@ -25,7 +25,7 @@ public class ItemUpdateActionsTest {
     }
 
     @Test
-    public void shouldIncreaseQualityForBackstage() {
+    public void shouldImproveQualityForBackstage() {
         ItemUpdateActions actions = new ItemUpdateActions();
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 20, 40);
         actions.updateQualityFor(item);

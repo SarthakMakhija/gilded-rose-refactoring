@@ -1,8 +1,6 @@
 package com.gildedrose;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -69,41 +67,48 @@ class ItemUpdateActions {
     }
 
     static class Actions {
-        private final List<Action> actions = new ArrayList<>(3);
+
+        enum ValueType {
+            Quality,
+            SellIn,
+            PostSellInQuality
+        }
+
+        private final Map<ValueType, Action> actions = new HashMap<>();
 
         static Actions sensible() {
             Actions actions = new Actions();
-            actions.actions.add(DegradeQualityActionProvider.provide());
-            actions.actions.add(ReduceSellInActionProvider.provide());
-            actions.actions.add(DegradeQualityActionProvider.provide());
+            actions.actions.put(ValueType.Quality, DegradeQualityActionProvider.provide());
+            actions.actions.put(ValueType.SellIn, ReduceSellInActionProvider.provide());
+            actions.actions.put(ValueType.PostSellInQuality, DegradeQualityActionProvider.provide());
             return actions;
         }
 
         Actions addQualityUpdateAction(Action action) {
-            this.actions.add(0, action);
+            this.actions.put(ValueType.Quality, action);
             return this;
         }
 
         Actions addSellInUpdateAction(Action action) {
-            this.actions.add(1, action);
+            this.actions.put(ValueType.SellIn, action);
             return this;
         }
 
         Actions addPostSellInQualityUpdateAction(Action action) {
-            this.actions.add(2, action);
+            this.actions.put(ValueType.PostSellInQuality, action);
             return this;
         }
 
         void updateQualityFor(Item item) {
-            actions.get(0).actOn(item);
+            actions.get(ValueType.Quality).actOn(item);
         }
 
         void updateSellInFor(Item item) {
-            actions.get(1).actOn(item);
+            actions.get(ValueType.SellIn).actOn(item);
         }
 
         void updateQualityPostSellInFor(Item item) {
-            actions.get(2).actOn(item);
+            actions.get(ValueType.PostSellInQuality).actOn(item);
         }
     }
 
@@ -115,7 +120,8 @@ class ItemUpdateActions {
         }
 
         static Action nothing() {
-            return new Action((Item item) -> {});
+            return new Action((Item item) -> {
+            });
         }
 
         void actOn(Item item) {

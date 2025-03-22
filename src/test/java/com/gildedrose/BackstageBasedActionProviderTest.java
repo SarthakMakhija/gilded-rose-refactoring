@@ -12,7 +12,7 @@ public class BackstageBasedActionProviderTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 20, 40);
         action.qualityUpdateAction.accept(item);
 
-        assertEquals(41, item.quality);
+        assertEquals(41, item.quality());
     }
 
     @Test
@@ -21,7 +21,7 @@ public class BackstageBasedActionProviderTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 9, 40);
         action.qualityUpdateAction.accept(item);
 
-        assertEquals(42, item.quality);
+        assertEquals(42, item.quality());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class BackstageBasedActionProviderTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
         action.qualityUpdateAction.accept(item);
 
-        assertEquals(43, item.quality);
+        assertEquals(43, item.quality());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class BackstageBasedActionProviderTest {
         Item item = new Item("Aged Brie", -1, 40);
 
         action.postSellInQualityUpdateAction.accept(item);
-        assertEquals(0, item.quality);
+        assertEquals(0, item.quality());
     }
 
     @Test

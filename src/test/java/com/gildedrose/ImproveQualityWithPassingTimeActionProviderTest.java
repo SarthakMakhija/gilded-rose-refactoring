@@ -12,7 +12,7 @@ public class ImproveQualityWithPassingTimeActionProviderTest {
         Item item = new Item("Aged Brie", 10, 40);
 
         action.qualityUpdateAction.accept(item);
-        assertEquals(41, item.quality);
+        assertEquals(41, item.quality());
     }
 
     @Test
@@ -30,6 +30,6 @@ public class ImproveQualityWithPassingTimeActionProviderTest {
         Item item = new Item("Aged Brie", -1, 40);
 
         action.postSellInQualityUpdateAction.accept(item);
-        assertEquals(41, item.quality);
+        assertEquals(41, item.quality());
     }
 }

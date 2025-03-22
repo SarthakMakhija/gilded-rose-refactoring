@@ -6,7 +6,7 @@ public class Item {
 
     public int sellIn;
 
-    public int quality;
+    private int quality;
 
     public static final int PeakQuality = 50;
 
@@ -49,7 +49,11 @@ public class Item {
     }
 
     public String name() {
-        return name;
+        return this.name;
+    }
+
+    public int quality() {
+        return this.quality;
     }
 
     @Override

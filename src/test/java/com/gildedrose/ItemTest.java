@@ -11,7 +11,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.degradeQualityByOne();
 
-        assertEquals(6, item.quality);
+        assertEquals(6, item.quality());
     }
 
     @Test
@@ -19,7 +19,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 1);
         item.degradeQualityByOne();
 
-        assertEquals(0, item.quality);
+        assertEquals(0, item.quality());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 0);
         item.degradeQualityByOne();
 
-        assertEquals(0, item.quality);
+        assertEquals(0, item.quality());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         item.improveQualityByOne();
 
-        assertEquals(8, item.quality);
+        assertEquals(8, item.quality());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, Item.PeakQuality);
         item.improveQualityByOne();
 
-        assertEquals(50, item.quality);
+        assertEquals(50, item.quality());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 6);
         item.improveQualityBy(5);
 
-        assertEquals(11, item.quality);
+        assertEquals(11, item.quality());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ItemTest {
         Item item = new Item("Elixir of the Mongoose", 5, 46);
         item.improveQualityBy(10);
 
-        assertEquals(50, item.quality);
+        assertEquals(50, item.quality());
     }
 
     @Test

@@ -12,7 +12,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 40);
         actions.update(item);
 
-        assertEquals(40, item.quality);
+        assertEquals(40, item.quality());
     }
 
     @Test
@@ -21,7 +21,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Sulfuras, Hand of Ragnaros", -1, 40);
         actions.update(item);
 
-        assertEquals(40, item.quality);
+        assertEquals(40, item.quality());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Aged Brie", 10, 40);
         actions.update(item);
 
-        assertEquals(41, item.quality);
+        assertEquals(41, item.quality());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Aged Brie", -1, 40);
         actions.update(item);
 
-        assertEquals(42, item.quality);
+        assertEquals(42, item.quality());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 20, 40);
         actions.update(item);
 
-        assertEquals(41, item.quality);
+        assertEquals(41, item.quality());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 9, 40);
         actions.update(item);
 
-        assertEquals(42, item.quality);
+        assertEquals(42, item.quality());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40);
         actions.update(item);
 
-        assertEquals(43, item.quality);
+        assertEquals(43, item.quality());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Elixir of the Mongoose", 10, 40);
         actions.update(item);
 
-        assertEquals(39, item.quality);
+        assertEquals(39, item.quality());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ItemUpdateActionsTest {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", -1, 40);
         actions.update(item);
 
-        assertEquals(0, item.quality);
+        assertEquals(0, item.quality());
     }
 
     @Test

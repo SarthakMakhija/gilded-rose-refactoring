@@ -41,7 +41,7 @@ public class FunctionalTest {
                 new Item("Backstage passes to a TAFKAL80ETC concert", -2, 0)};
 
         for (int index = 0; index < expected.length; index++) {
-            assertEquals(expected[index].name, app.items[index].name);
+            assertEquals(expected[index].name(), app.items[index].name());
             assertEquals(expected[index].sellIn, app.items[index].sellIn);
             assertEquals(expected[index].quality, app.items[index].quality);
         }

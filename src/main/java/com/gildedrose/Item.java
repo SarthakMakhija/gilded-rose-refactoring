@@ -2,7 +2,7 @@ package com.gildedrose;
 
 public class Item {
 
-    public String name;
+    private final String name;
 
     public int sellIn;
 
@@ -46,6 +46,10 @@ public class Item {
 
     int daysLeftToSell() {
         return this.sellIn;
+    }
+
+    public String name() {
+        return name;
     }
 
     @Override

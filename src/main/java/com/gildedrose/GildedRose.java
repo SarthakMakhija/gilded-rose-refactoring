@@ -41,7 +41,6 @@ class GildedRose {
 }
 
 class ItemUpdateActions {
-
     private final Map<String, Action> actions;
 
     ItemUpdateActions() {
@@ -66,7 +65,7 @@ class ItemUpdateActions {
         final Consumer<Item> qualityUpdateAction;
         final Consumer<Item> sellInUpdateAction;
 
-        Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction) {
+        private Action(Consumer<Item> qualityUpdateAction, Consumer<Item> sellInUpdateAction) {
             this.qualityUpdateAction = qualityUpdateAction;
             this.sellInUpdateAction = sellInUpdateAction;
         }

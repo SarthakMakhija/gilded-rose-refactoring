@@ -7,7 +7,7 @@
 This repository aims to refactor [GildedRose Kata](https://kata-log.rocks/gilded-rose-kata) for teaching refactoring.
 The refactored code addresses numerous code smells present in the original implementation, including:
 
-- [Broken encapsulation](https://refactoring.guru/smells/inappropriate-intimacy)
+- [Inappropriate Intimacy](https://refactoring.guru/smells/inappropriate-intimacy)
 - [Feature envy](https://refactoring.guru/smells/feature-envy)
 - [Long method](https://refactoring.guru/smells/long-method)
 - [Duplicate code](https://refactoring.guru/smells/duplicate-code)
